@@ -1,0 +1,31 @@
+.emailDealing{
+    align-content: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-size: medium;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    margin: 2px;
+}
+.sendEmailBtn{
+    background-color: rgb(241, 211, 144);
+    /* border-radius: 10px; */
+    width: 100px;
+    height: 30px;
+    font-size: medium;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+   
+}
+.emailForm{
+    width: 300px;
+    margin: 10px auto;
+    /* padding: 10px; */
+    border-radius: 10px;
+    color: white;
+    /* border: 1px solid ; */
+    background-color: rgba(59, 59, 56, 0.836);
+    opacity: 1;
+}

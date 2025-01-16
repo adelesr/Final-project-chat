@@ -1,0 +1,69 @@
+.signUp{
+    width: 400px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid rgb(179, 173, 173);
+    background-color: white;
+    border-radius: 10%;
+    margin: 3px auto;
+    text-align: center;
+    font-size: medium;
+    font-family:Georgia, 'Times New Roman', Times, serif; 
+    box-shadow: 3px 10px 0px 0px rgba(0, 0, 0, 0.795);
+}
+.btnSign{
+    background-color: coral;
+    border-radius: 10px;
+    width: 80px;
+    height: 40px;
+    font-size: medium;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+}
+.inputText{
+    width: 200px;
+    padding: 5px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+.signupIcon{
+    width: 200px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+/* .backgroundImg{
+    background-image: url('../../assets/Images/backgroundO4Signup.png');
+    background-size: cover;
+    height: 100vh;
+    margin: 0;
+    background-attachment: fixed;
+    background-position: center;
+} */
+/* html, body {
+   
+    background: #a2aec5 url('../../assets/Images/signupPageBackground.png');
+    font-family: 'Quicksand', sans-serif;
+    letter-spacing: -0.23px;
+    height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+} */
+.mainScreenSignUp{
+    height: 100vh;
+    width: 100vw;
+    justify-content: center;
+}
+.signUpPlaceHolder{
+    display: block;
+    height: 25vh;
+}
+.backgroundImgSignUp{
+    background: #a2aec5 url('../../assets/Images/LoginSignUpImg/signupPageBackground.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    font-family: 'Quicksand', sans-serif;
+    letter-spacing: -0.23px;
+}
