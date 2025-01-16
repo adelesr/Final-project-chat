@@ -1,0 +1,77 @@
+.containerPage{
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 50px;
+    
+    /* rgb(205, 92, 92); */
+    /* rgba(183, 112, 183, 0.894); */
+}
+.titleMemoryGame{
+    display: block;
+    background-color: bisque;
+     font-family:Georgia, 'Times New Roman', Times, serif;
+     font-size:80px;
+     text-align: center;
+     font-weight: bolder;
+}
+.containerScores{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 30px;
+}
+
+.line{
+    display: flex;
+    flex-direction: row;
+
+}
+.gameBoard{
+    display: grid;
+    /* flex-wrap: wrap; */
+    position: relative;
+    justify-content:center;
+    align-items: center;
+    margin-left: 25%;
+     /* margin-top: 20px; */
+    max-width: 40vw;
+    grid-template-columns: repeat(5,1fr);
+    grid-template-rows: repeat(4,1fr);
+
+}
+.detailsUser{
+    background-color:bisque;
+    color:black;
+    width: 15vw;
+    height: auto;
+    border-radius: 30%;
+    text-align: center;
+    font-size:medium;
+}
+
+.greenBorder{
+    border: 6px solid green;
+    background-color: rgb(206, 241, 206);
+}
+.redBorder{
+    border: 6px solid black;
+}
+.leaveGameMsg{
+    top:50vh;
+    left: 50vw;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 200px;
+    align-items: center;
+    justify-content: center;
+    background-color:  rgba(0, 0, 0, 0.8);
+    box-shadow: 2px;
+    opacity: 3px;
+    font-size: 50px;
+    z-index: 1000;
+    color: red;
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}

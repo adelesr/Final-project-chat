@@ -1,0 +1,72 @@
+.msgGame{
+    top:50vh;
+    left: 50vw;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 200px;
+    align-items: center;
+    justify-content: center;
+    background-color:  rgba(46, 46, 43, 0.2);
+    box-shadow: 2px;
+    opacity: 3px;
+    font-size: 50px;
+    z-index: 1000;
+    color: rgb(83, 7, 7);
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+}
+.gamePage{
+    background-image: url('../../assets/Images/cardsImg/waitingGamePic1.png');
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-position:top;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+}
+.spinner{
+    position: fixed;
+    bottom: 5%;
+    left: 47%;
+    width: 80px;
+    height: 80px;
+    z-index: 1000;
+}
+.leaveGameMsg{
+    font-size: 50px;
+    color: rgb(82, 9, 9);
+    background-color: rgb(40, 51, 54);
+    display: flex;
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin-top: 10px;
+    top:50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    width: 800px;
+    height: 200px;
+}
+.hideMessage{
+    animation: fadeOut 3.0s forwards linear;
+    width: 0;
+    height: 0;
+}
+.hideMessageMoreTime{
+    animation: fadeOut 5.0s forwards linear;
+    width: 0;
+    height: 0;
+}
+@keyframes fadeOut {
+    0%{ opacity: 1; }
+    100% { opacity: 0; }
+}
+.MemoryGamePage{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgb(216, 243, 248);
+}

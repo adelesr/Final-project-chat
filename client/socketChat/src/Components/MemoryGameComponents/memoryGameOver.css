@@ -1,0 +1,46 @@
+.victoryImg img{
+    /* background-image: url("../assets/Images/cardsImg/victoryImg.png"); */
+    position: absolute;
+    width: 600px;
+    height: 500px;
+    /* background-size: cover; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.5s;
+    transform: scale(1);
+    z-index: 1000;
+    top:30vh;
+    left: 30vw;
+}
+
+.winnerMsgBody{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    color: black;
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: larger;
+    text-align: center;
+    top:60vh;
+    left: 38vw;
+    padding: 10px;
+    z-index: 1000;
+}
+.btnsContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    gap:20px
+}
+.btnsContainer button{
+    background-color: rgb(223, 199, 93);
+    color:rgba(110, 61, 61);
+    width: fit-content;
+    height: 30px;
+    border-radius: 20%;
+}

@@ -2,12 +2,10 @@ import express from "express";
 import cors from 'cors';
 import http from 'http'
 import { Server } from "socket.io";
-import mongoose from "mongoose";
-import { join } from "path";
+// import mongoose from "mongoose";
 import { chatSocketHandler } from "./sockets/chatSocketHandler.js";
 import { socketGame_RPSHandler,stopGame_RPS,roomUsersReset } from './sockets/Socket-game-RPS.js';
-
-
+import { memoryGameSocketHandler} from "./sockets/MemoryGameSocketHandler.js";
 
 const messagesHistory = [];
 let PORT = 8080;
@@ -23,13 +21,17 @@ io.on("connection",(socket) => {
 
     chatSocketHandler(io,socket)
     // socket.on('start-game',game_RPS.startGame)
-    socket.on('start-game',(game_number)=>{
-        if(game_number === 'RPS'){
+    socket.on('start-game',(game_name)=>{
+        if(game_name === 'RPS'){
             console.log('RPS game handler started');
             socketGame_RPSHandler(io,socket)
-        }else if(game_number === 'memory'){
+        }else if(game_name === 'memory'){
             console.log('memory game handler started');
-            console.log('memory game');
+            socket.on("joinGame", ({currentUserObject,chatId}) => {
+                console.log("the user " + currentUserObject.userName + " joined the game");
+                console.log("chatId: " + chatId);
+                memoryGameSocketHandler(io, socket, currentUserObject,chatId);
+            });
         }
     })
     socket.on('leave-game', (gameName) => {
@@ -38,15 +40,20 @@ io.on("connection",(socket) => {
             stopGame_RPS(); 
         } else if (gameName === 'memory') {
             console.log('Memory game handler stopped');
-        //   stopGame_memory();
+            stopGame_memoryGame(socket);
         }
       });
   
     
     
-    socket.on("disconnect",()=>{
+    socket.on("disconnect",({gameName,chatId=""})=>{
         console.log("user disconnected");
-        roomUsersReset(socket)
+        if(gameName === 'RPS'){
+            roomUsersReset(socket)
+        }
+        else if (gameName === 'memory'){
+            memoryGameRoomsReset(socket,chatId)
+        }
     })
 
 })
@@ -63,28 +70,3 @@ server.listen(PORT,
     }
 )
 
-// mongoose.connect('').then(() => {
-  
-//     emit('send user',)
-// })
-
-    // ----
-    // io.on("connection",(socket) => {
-    //     console.log("user connected");
-    //     // console.log(socket);
-        
-    //     socket.on("sendMessagesToEveryone",(message)=> {
-    //         const messageObject = {
-    //             id: Date.now(),
-    //             userName: message.userName,
-    //             avatar: message.avatar,
-    //             timeSent: Date.now(),
-    //             content:message.userMsg
-    //         }
-            
-    //         io.emit("receiveMessage",messageObject)
-    //         // io.emit("receiveMessage",message)
-    //     })
-        
-    // })
-    //----

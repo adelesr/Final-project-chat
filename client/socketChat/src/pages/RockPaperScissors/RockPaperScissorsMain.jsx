@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react'
 import './RPS-style.css'
-import { socket } from '../../utils/socket'
-import OptionPanel from './OptionPanel'
+import { socket } from '../../utils/socket.js'
+import OptionPanel from './OptionPanel.jsx'
 import GameResult from './gameResult.jsx'
 import { useNavigate, useLocation } from 'react-router-dom'
 
@@ -69,7 +69,7 @@ const RockPaperScissorsMain = ({gameMode}) => {
     }, [socket,reloaderIndicator])
     
     const returnToChat = ()=>{
-        navigate(`/`);
+        navigate(`/chat`);
     }
     const clickHandler = (e)=>{
         if(e){

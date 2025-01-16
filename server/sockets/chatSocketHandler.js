@@ -18,7 +18,7 @@ export function chatSocketHandler(io, socket){
         })
         socket.on('join-room',(room)=>{
             socket.join(room)
-            console.log(`socket-- ${socket.id} added to room name -- ${room}`);
+            console.log(`socket-- ${socket.id} added to room chat name -- ${room}`);
             
         })
 
