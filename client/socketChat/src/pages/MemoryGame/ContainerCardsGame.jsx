@@ -8,7 +8,6 @@ const ContainerCardsGame = ({players,cards,currentUser}) => {
 
   const navigate=useNavigate();
   const [winningMessage, setWinningMessage] = useState("");
-  //במסך הצאט- אם לוחץ על המשחק המשתנה הופך לTRUE
   const [player1, setPlayer1] = useState({id: players[0].id,userName:players[0].userName,score:0,inTheGame:true});
   const [player2, setPlayer2] = useState({id: players[1].id,userName:players[1].userName,score:0,inTheGame:true});
   const [turn, setTurn] = useState(player1);
