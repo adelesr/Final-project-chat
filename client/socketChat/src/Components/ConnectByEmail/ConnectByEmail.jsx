@@ -35,10 +35,12 @@ const ConnectByEmail = () => {
             return;
         }
         await axios.post('/api/v1/users/verifyEnteryCode', {email, code}).then((res)=>{
-            setMessageVerifyCode(res.data);
+            setMessageVerifyCode(JSON.stringify(res.data.msg));
+            console.log("msg:------",JSON.stringify(res.data.msg));
+            console.log("user: ----- ",JSON.stringify(res.data.user));
             console.log(messageVerifyCode);
-            navigate('/chat');
-        }).catch(err=>{setMessageVerifyCode(err.response.data)
+            navigate('/chat',{state:{detailUser: res.data.user}});
+        }).catch(err=>{setMessageVerifyCode(err.response.data.msg)
             console.log("err: "+messageVerifyCode,"the code: "+code);
 
         });

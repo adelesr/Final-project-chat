@@ -5,6 +5,7 @@ import { validateMailAddress } from "./validatorController.js";
 import dotenv from 'dotenv';
 import User from '../models/User.js';
 dotenv.config();
+
 let verificationCodes = {email:'',code:''};
 
 const transporter = nodemailer.createTransport({
@@ -28,8 +29,8 @@ export const sendCodeToMail= async(req,res)=>{
     if(!validateMailAddress(email))
         return res.status(400).send("Invalid email, notice that email must be in format of  example@example.com");
 
-    const fimdUserByMail = await User.findOne({email});
-    if(!fimdUserByMail)
+    const findUserByMail = await User.findOne({email});
+    if(!findUserByMail)
         return res.status(400).send("User with this email does not exist, please sign up first");
 
     const fourDigitCode = Math.floor(1000 + Math.random() * 9000);
@@ -57,8 +58,13 @@ export const checkVerifyCode = async (req,res) => {
     if(code== null || code === ''  || code.length !=4 || isNaN(code)  || code.toString().indexOf('.') > -1)
     {
         console.log("No verification code provided, its null");
-        return res.status(400).send("Please enter the verification code you received,\n"
-             +"noticed that it must be 4 digits long and should not contain any special characters");
+        return res.status(400).json({
+            msg: "Please enter the verification code you received,\nnoticed that it must be 4 digits long and should not contain any special characters",
+            user:null
+        })
+
+        // return res.status(400).send("Please enter the verification code you received,\n"
+        //      +"noticed that it must be 4 digits long and should not contain any special characters");
     }
 
     const storedCode = verificationCodes[email];
@@ -66,18 +72,28 @@ export const checkVerifyCode = async (req,res) => {
     if(!storedCode)
     {
         console.log("No verification code found for the given email");
-        return res.status(400).send("Verification code not found, please send the correct email or go to sign up page");
+        return res.status(400).json({msg:"Verification code not found, please send the correct email or go to sign up page",
+            user:null
+        });
     }
     console.log("storedCode.code:",storedCode.code);
     if(Date.now() > storedCode.expiresAt) //אם נמצאה כתובת מייל כזו בדיקשנרי אך תוקף השמירה של הקוד עבר- נמחק אותה
     {
         delete verificationCodes[email];
-        return res.status(400).send("Verification code has expired, please try again");
+        return res.status(400).json({msg:"Verification code has expired, please try again",
+            user:null
+        });
     }
     if(code == storedCode.code) //אם תוקף הקוד עדיין נשמר במערכת 
     {
+        const currentUser=await User.findOne({email});
+        const userObject = currentUser ? currentUser.toObject() : null;
         delete verificationCodes[email];
-        return res.status(200).send("Verification code is correct");
+        return res.status(200).json({msg:"Verification code is correct",
+            user:userObject
+        });
     }
-     res.status(400).send("Verification code is incorrect, please try again or resend the verification code");
+     res.status(400).json({msg:"Verification code is incorrect, please try again or resend the verification code",
+        user:null
+     });
 }
