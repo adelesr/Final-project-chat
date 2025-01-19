@@ -22,13 +22,12 @@ const MemoryGamePage = () => {
 
   useEffect(() => {
     socket.on('playerJoined',(arr) => {
-      const message=arr[0]
+      const message=arr[0];
       const participents=arr[1];
       setMessageShow(message);
       setParticipantsArr(participents);
       setIsLoading(false);
     });
-    // socket.emit("joinGame",{user,chatId});
     socket.emit("joinGame",{currentUserObject,chatId});
 
     socket.on("exitFromGame",()=> {
@@ -48,7 +47,6 @@ const MemoryGamePage = () => {
   }, []);
  
   const userLeave=()=>{
-      // countPlayersPressLeave+=1;
       socket.emit("leaveGame");
   }
   return (

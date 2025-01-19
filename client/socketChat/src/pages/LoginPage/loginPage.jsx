@@ -12,19 +12,12 @@ const LoginPage = () => {
 
     const login=async(e)=>{
         e.preventDefault();
-        await axios.post('/api/v1/users/login',user,{withCredentials: true}).then(async(res)=>{
+        axios.post('/api/v1/users/login',user,{withCredentials: true}).then((res)=>{
             console.log("user before setting:",detailUser);
             setDetailUser(res.data);
             setTimeout(() => {
                 console.log("user after setting:",detailUser);
             }, 0);
-            // navigate('/chat',{ state: {detailUser}});
-
-            // await axios.get('/api/v1/users/chat',{withCredentials: true}).then(() => {
-            //     // console.log(res.data, "enter");
-            //     navigate('/chat',{ state: {detailUser}});
-            // }).catch(() => navigate('/'))
-
         }).catch(err=>{setErrMsg(err.response.data)
             console.log(err.response.data|| "not be found");
         });  

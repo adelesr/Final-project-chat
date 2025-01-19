@@ -14,21 +14,17 @@ const ChatHomePage = () => {
   const [userMsg, setUserMsg] = useState('');
   const [currentChat, setCurrentChat] = useState();
   const [chatList, setChatList] = useState(chatDB);
-  //  const [chatList, setChatList] = useState([]);
   const [isLoading, setIsLoading] = useState(true)
   const {state}=useLocation();
   const {detailUser} = state;
   const [currentUserObject, setCurrentUserObject] = useState(detailUser);
 
   useEffect(() => {
-    // socket.on("chatList",(chatDb)=>{
-    //   setChatList(chatDb);
-    // })
+   
     const verifyToken=async()=>{
       await axios.get('/api/v1/users/chat',{withCredentials: true}).then((res) => {
         setIsLoading(false);
         setTimeout(()=>{
-          console.log("------------the verify token data: ",res.data, "----------------");
         },0)
   
       }).catch(() => {
@@ -38,7 +34,6 @@ const ChatHomePage = () => {
     }
     verifyToken();
     if(!isLoading){
-      console.log("new thing: ",currentUserObject);
       const handleReceiveMessage = (msg)=>{
         setCurrentChat((prevChat) => ({
           ...prevChat,

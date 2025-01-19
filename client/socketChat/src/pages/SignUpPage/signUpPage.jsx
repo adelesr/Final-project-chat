@@ -13,7 +13,6 @@ const SignUpPage = () => {
     const signUp=async(e)=>{
       e.preventDefault();
       await axios.post('/api/v1/users/signup',user).then(res=>{
-        console.log(res.data);
         setMessage(res.data);
         setUser(res.data);
         setSignedUpSucssesfully(true);
@@ -22,7 +21,6 @@ const SignUpPage = () => {
     }
     
     useEffect(() => {
-        console.log('Resetting params:',{signedUpSucssesfully});
         if(signedUpSucssesfully){
           setUser({userName: '', password: '',email: '',isFemale: false});
           setSignedUpSucssesfully(false);

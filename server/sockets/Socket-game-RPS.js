@@ -47,7 +47,7 @@ export const socketGame_RPSHandler = (io,socket) =>{
         if(roomIsFull){
             console.log("room is full");
         }else if (socketExist) {
-            const socketInTheRoom = roomUsers[socket.id].includes(room)
+            const socketInTheRoom = roomUsers[socket.id].includes(room);
             if (socketInTheRoom) {
                 console.log("User is already in room");
             } else {
@@ -63,12 +63,8 @@ export const socketGame_RPSHandler = (io,socket) =>{
     })
  
     socket.on("playerHand",(hand)=>{
-        console.log("player hand",hand);
-        // socket.broadcast.emit("enemyHand",hand) ----{userId,hand}
         gameUsersAndHands.push(hand)
         if(gameUsersAndHands.length===2){
-            console.log("enter the game result if calculation");            
-            console.log("gameUsersAndHands",gameUsersAndHands);
             io.emit("handsState", gameUsersAndHands)
             winningCalculationRPS(hand,gameUsersAndHands[0])
             io.emit("gameResult", victory)  

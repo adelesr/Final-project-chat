@@ -32,7 +32,6 @@ const RockPaperScissorsMain = ({gameMode}) => {
     useEffect(() => {
         if(gameMode==='multi'){
             socket.on('enemyHand', (hand)=>{
-                console.log('Enemy played, the enemyHand is -',hand);  
                 if(!gameOver){
                     setEnemyHand(hand);
                     setIsWaiting(false);
@@ -55,7 +54,6 @@ const RockPaperScissorsMain = ({gameMode}) => {
                 }else if(victory!==currentUserId){
                     setVictory(2)
                 }
-                console.log('Game result emitted,the victory result is - ',victory);
                 setGameOver(true)
             })
             socket.emit('join-room',roomId)
@@ -66,14 +64,6 @@ const RockPaperScissorsMain = ({gameMode}) => {
     }, [socket,reloaderIndicator])
     
     const returnToChat = ()=>{
-        // setPlayerHand(3)
-        // if(gameMode==='multi'){
-        //     setIsWaiting(true)
-        // }
-        // setEnemyHand(3)
-        // setGameOver(false)
-        // setDisableButtons(false)
-        
         navigate(`/chat`,{state: {detailUser:currentUserObject}});
     }
     const clickHandler = (e)=>{
@@ -82,8 +72,6 @@ const RockPaperScissorsMain = ({gameMode}) => {
             if(gameMode==='single'){
                 const randomHand = Math.floor(Math.random() * 3);
                 setEnemyHand(randomHand);
-                // setTimeout(() => {screenWinner(playerHand, enemyHand)},5);
-                // setReloadIndicator(reloaderIndicator+1)
             }else if(gameMode==='multi'){
                 socket.emit('playerHand', {userId: currentUserId, hand: e.target.dataset.hand})
                 setDisableButtons(true)
@@ -108,7 +96,6 @@ const RockPaperScissorsMain = ({gameMode}) => {
                     <svg className="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
                         <circle className="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
                     </svg>
-                    {/* <h1>Waiting for the other player to choose</h1> */}
                 </div>:
                 <div>
                     <img src={enemyHands[enemyHand]} alt="enemyHand" />

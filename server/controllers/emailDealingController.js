@@ -19,10 +19,8 @@ const transporter = nodemailer.createTransport({
     }})
 export const sendCodeToMail= async(req,res)=>{
     const {email} = req.body;
-    console.log("email:",email);
     if(!email)
     {
-        console.log("No email provided");
         return res.status(400).send("Email is required");
     }
 
@@ -46,14 +44,12 @@ export const sendCodeToMail= async(req,res)=>{
         if (error) {
           console.error("Error sending email: ", error);
         } else {
-          console.log("Email sent: ", info.response);
           res.status(200).send("Verification code sent to your email");
         }
       });
 }
 export const checkVerifyCode = async (req,res) => {
     const {email, code} = req.body;
-    console.log(email,'code:'+code);
 
     if(code== null || code === ''  || code.length !=4 || isNaN(code)  || code.toString().indexOf('.') > -1)
     {
@@ -62,21 +58,15 @@ export const checkVerifyCode = async (req,res) => {
             msg: "Please enter the verification code you received,\nnoticed that it must be 4 digits long and should not contain any special characters",
             user:null
         })
-
-        // return res.status(400).send("Please enter the verification code you received,\n"
-        //      +"noticed that it must be 4 digits long and should not contain any special characters");
     }
 
     const storedCode = verificationCodes[email];
-    console.log(storedCode);
     if(!storedCode)
     {
-        console.log("No verification code found for the given email");
         return res.status(400).json({msg:"Verification code not found, please send the correct email or go to sign up page",
             user:null
         });
     }
-    console.log("storedCode.code:",storedCode.code);
     if(Date.now() > storedCode.expiresAt) //אם נמצאה כתובת מייל כזו בדיקשנרי אך תוקף השמירה של הקוד עבר- נמחק אותה
     {
         delete verificationCodes[email];

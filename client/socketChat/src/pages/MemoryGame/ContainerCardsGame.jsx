@@ -60,7 +60,6 @@ const ContainerCardsGame = ({players,cards,currentUser}) => {
       increaseScore();
       setTimeout(()=>checkWinner(),0);
       setCardsArr(cardsArr);
-      //--- until here in thw server
     }
     else {
       const newCardsArr = [...cardsArr];
@@ -79,25 +78,11 @@ const ContainerCardsGame = ({players,cards,currentUser}) => {
     setTurn(turn===player1 ? player2:player1); 
   }
 
-  const anotherGame=()=>{
-    socket.on("anotherGame",()=>{
-      setWinningMessage("");
-      setCardsArr(shuffledCardsArray(cardsArr));
-      setPrevCard(-1);
-      setTurn(player1);
-      setPlayer1({...player1, score:0});
-      setPlayer2({...player2, score:0});
-      setCountSelectedCards(0);
-      sameUsersPlayTwice();
-    })
-    socket.emit("newGame");
-      
-  }
   const gameOver=()=>{
     socket.on("exitFromGame",()=>{
       player1.inTheGame=false;
       player2.inTheGame=false;
-      navigate("/chat");
+      navigate("/chat",{state:{detailUser:currentUser}});
     })
     if(player1.inTheGame && player2.inTheGame)
     {
@@ -106,7 +91,6 @@ const ContainerCardsGame = ({players,cards,currentUser}) => {
   }
   const checkWinner=()=>{
     socket.on("gameOverMessage",(msg)=>{
-      console.log(msg+ "change the state winningMessage");
       setWinningMessage(msg);
       setTimeout(()=>console.log(msg+ "is the message after set"),0);
     })
@@ -156,7 +140,7 @@ const ContainerCardsGame = ({players,cards,currentUser}) => {
        </div>
 
         {winningMessage && (
-          <MemoryGameOver msgResult={winningMessage} anotherGame={anotherGame} leaveGame={gameOver}/>
+          <MemoryGameOver msgResult={winningMessage} leaveGame={gameOver}/>
          )}
           
           {!player1.inTheGame || !player2.inTheGame && (

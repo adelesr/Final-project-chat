@@ -1,7 +1,5 @@
-import chatDB from "../models/chatDb.js"
 
 export function chatSocketHandler(io, socket){
-        // socket.emit("chatList",chatDB);
 
         socket.on("sendMessage",(message,room)=> {
             const messageObject = {
@@ -17,12 +15,10 @@ export function chatSocketHandler(io, socket){
                 socket.to(room).emit("receivePrivateMessage",messageObject)
             }else
                 io.emit("receiveMessage",messageObject)
-                // socket.broadcast.emit("receiveMessage",messageObject)
             
         })
         socket.on('join-room',(room)=>{
             socket.join(room)
-            console.log(`socket-- ${socket.id} added to room chat name -- ${room}`);
         })
         
     

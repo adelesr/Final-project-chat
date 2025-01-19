@@ -2,11 +2,8 @@
 import React from 'react'
 
 const GameResult = ({ victoryState, playAgainClickHandler,returnToChat }) => {
-    let result
-    console.log('victoryState', victoryState);
-    console.log(`from the game result this is the victoryState ${victoryState}`);
-    
-    
+    let result;
+
     switch (victoryState) {
         case 0:
             result = (
