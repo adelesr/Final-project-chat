@@ -5,6 +5,7 @@ import ChatList from './chat components/Chatlist/ChatList.jsx';
 import chatDB from "../assets/Mockedchats.js"
 import EmptyChatBox from './chat components/Chatbox/EmptyChatBox.jsx';
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 import './chat components/chatStyle.css'
 export const Context = React.createContext();
 
@@ -14,38 +15,47 @@ const ChatHomePage = () => {
   const [currentChat, setCurrentChat] = useState();
   const [chatList, setChatList] = useState(chatDB);
   //  const [chatList, setChatList] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(true)
   const {state}=useLocation();
   const {detailUser} = state;
   const [currentUserObject, setCurrentUserObject] = useState(detailUser);
-        console.log(currentUserObject)
-  //   id : Date.now(),
-  //   // id : 25,
-  //   userName:"Bar-amos",
-  //   userAvatar: '../src/assets/chat_images/men logo.png',
-  //   email:'boby@gmail.com',
-  //   isFemale:'false'
-  // }
+
   useEffect(() => {
     // socket.on("chatList",(chatDb)=>{
     //   setChatList(chatDb);
     // })
-    console.log("new thing: ",currentUserObject);
-    const handleReceiveMessage = (msg)=>{
-      setCurrentChat((prevChat) => ({
-        ...prevChat,
-        messagesList: [msg,...prevChat.messagesList]
-      }));
+    const verifyToken=async()=>{
+      await axios.get('/api/v1/users/chat',{withCredentials: true}).then((res) => {
+        setIsLoading(false);
+        setTimeout(()=>{
+          console.log("------------the verify token data: ",res.data, "----------------");
+        },0)
+  
+      }).catch(() => {
+        setIsLoading(true);
+        navigate('/');
+      })
     }
-    if(currentChat)
-    {
-      socket.emit('join-room',currentChat.chatId);
+    verifyToken();
+    if(!isLoading){
+      console.log("new thing: ",currentUserObject);
+      const handleReceiveMessage = (msg)=>{
+        setCurrentChat((prevChat) => ({
+          ...prevChat,
+          messagesList: [msg,...prevChat.messagesList]
+        }));
+      }
+      if(currentChat)
+      {
+        socket.emit('join-room',currentChat.chatId);
+      }
+      // chatList.map((c)=>{socket.emit('join-room',c.chatId)})
+      socket.on("receiveMessage",handleReceiveMessage)
+      return () => {
+        socket.off("receiveMessage", handleReceiveMessage);
+      };
     }
-    // chatList.map((c)=>{socket.emit('join-room',c.chatId)})
-    socket.on("receiveMessage",handleReceiveMessage)
-    return () => {
-      socket.off("receiveMessage", handleReceiveMessage);
-    };
+
   },[currentChat])
 
   const selectChatHandler = (chatId)=>{
@@ -67,7 +77,8 @@ const ChatHomePage = () => {
           }
     }
   return (
-    <Context.Provider value={currentUserObject}>
+    isLoading? (<div>Loading...</div>) : (
+      <Context.Provider value={currentUserObject}>
       <div className='mainChatPage'>
         <div>
           {currentChat? 
@@ -84,6 +95,8 @@ const ChatHomePage = () => {
         </>
       </div>
     </Context.Provider>
+
+    )
   )
 }
 export default ChatHomePage
