@@ -1,4 +1,8 @@
+import chatDB from "../models/chatDb.js"
+
 export function chatSocketHandler(io, socket){
+        // socket.emit("chatList",chatDB);
+
         socket.on("sendMessage",(message,room)=> {
             const messageObject = {
                 userObject: message.currentUserObject,
@@ -19,15 +23,7 @@ export function chatSocketHandler(io, socket){
         socket.on('join-room',(room)=>{
             socket.join(room)
             console.log(`socket-- ${socket.id} added to room chat name -- ${room}`);
-            
         })
-
-
-    // socket.on('join-game',(gameName,chatId,currentUserObject)=>{
-    // פה אדל שמה את הקוד שלה        
-
-    // }
-
         
     
 }

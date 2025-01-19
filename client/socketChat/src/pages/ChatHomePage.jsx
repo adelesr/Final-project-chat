@@ -1,29 +1,36 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { socket } from '../utils/socket.js';
 import Chatbox from './chat components/Chatbox/Chatbox.jsx';
 import ChatList from './chat components/Chatlist/ChatList.jsx';
 import chatDB from "../assets/Mockedchats.js"
 import EmptyChatBox from './chat components/Chatbox/EmptyChatBox.jsx';
+import { useLocation } from 'react-router-dom';
 import './chat components/chatStyle.css'
 export const Context = React.createContext();
 
 
-const HomePage = () => {
+const ChatHomePage = () => {
   const [userMsg, setUserMsg] = useState('');
   const [currentChat, setCurrentChat] = useState();
-  const [chatList, setChatList] = useState(chatDB)
-  const [currentUserObject, setCurrentUserObject] = useState(
-      {
-      id : Date.now(),
-      // id : 25,
-      userName:"Bar-amos",
-      userAvatar: '../src/assets/chat_images/men logo.png',
-      email:'boby@gmail.com',
-      isFemale:'false'
-    });
+  const [chatList, setChatList] = useState(chatDB);
+  //  const [chatList, setChatList] = useState([]);
 
+  const {state}=useLocation();
+  const {detailUser} = state;
+  const [currentUserObject, setCurrentUserObject] = useState(detailUser);
+        console.log(currentUserObject)
+  //   id : Date.now(),
+  //   // id : 25,
+  //   userName:"Bar-amos",
+  //   userAvatar: '../src/assets/chat_images/men logo.png',
+  //   email:'boby@gmail.com',
+  //   isFemale:'false'
+  // }
   useEffect(() => {
-    
+    // socket.on("chatList",(chatDb)=>{
+    //   setChatList(chatDb);
+    // })
+    console.log("new thing: ",currentUserObject);
     const handleReceiveMessage = (msg)=>{
       setCurrentChat((prevChat) => ({
         ...prevChat,
@@ -31,7 +38,9 @@ const HomePage = () => {
       }));
     }
     if(currentChat)
-      socket.emit('join-room',currentChat.chatId)
+    {
+      socket.emit('join-room',currentChat.chatId);
+    }
     // chatList.map((c)=>{socket.emit('join-room',c.chatId)})
     socket.on("receiveMessage",handleReceiveMessage)
     return () => {
@@ -77,4 +86,4 @@ const HomePage = () => {
     </Context.Provider>
   )
 }
-export default HomePage
+export default ChatHomePage

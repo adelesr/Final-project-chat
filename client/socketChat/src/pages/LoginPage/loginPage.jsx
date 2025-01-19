@@ -1,28 +1,40 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import {Link, useNavigate} from 'react-router'
 import ConnectByEmail from '../../components/ConnectByEmail/ConnectByEmail.jsx';
 import axios from 'axios';
 import './LoginPage.css';
 const LoginPage = () => {
     const [errMsg, setErrMsg] = useState('')
-    const [user, setUser] = useState({userName: '', password: ''})
+    const [user, setUser] = useState({userName:'', password:''});
+    const [detailUser, setDetailUser] = useState();
     const [connectByEmail, setConnectByEmail] = useState(false)
     const navigate = useNavigate();
 
     const login=async(e)=>{
         e.preventDefault();
-        await axios.post('/api/v1/users/login',user,{withCredentials: false}).then(res=>{
-            setUser(res.data);
-            console.log(res.data);
-            // const token = res.data.token; 
-            navigate('/chat');  
-            //  axios.post('/api/v1/users/chat',user,{withCredentials:true}).then(
-            // navigate('/chat')).catch(err=>console.log(err));
+        await axios.post('/api/v1/users/login',user,{withCredentials: true}).then(async(res)=>{
+            console.log("user before setting:",detailUser);
+            setDetailUser(res.data);
+            setTimeout(() => {
+                console.log("user after setting:",detailUser);
+            }, 0);
+            // navigate('/chat',{ state: {detailUser}});
+
+            // await axios.get('/api/v1/users/chat',{withCredentials: true}).then(() => {
+            //     // console.log(res.data, "enter");
+            //     navigate('/chat',{ state: {detailUser}});
+            // }).catch(() => navigate('/'))
+
         }).catch(err=>{setErrMsg(err.response.data)
             console.log(err.response.data|| "not be found");
         });  
     }
 
+    useEffect(() => {
+        console.log("Updated user in use Effect: ", detailUser);
+        if(detailUser)
+            navigate('/chat',{ state: {detailUser}});
+    }, [detailUser]);
     const connectByEmailHandler = () => {
         setConnectByEmail(!connectByEmail)
 

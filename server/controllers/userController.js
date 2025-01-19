@@ -68,12 +68,16 @@ export const LogIn = async (req,res) => {
             console.log(samePassword);
             if(!samePassword) 
             {
+                console.log("Password are not correct");
                 return res.status(404).send("The password or the user name are not correct, please sign in or try again");
             }
-    
+            console.log("before token");
             const token= jwt.sign({userName: userName}, process.env.SECRET_KEY, { expiresIn: '24h',issuer: 'http://localhost:8080'});
+            console.log(token);
             res.cookie('jwt', token, {httpOnly: true, maxAge: 90000});
-            return res.send(user);
+            const newUser={id:(user._id).toString(),userName:user.userName,email:user.email,isFemale:user.isFemale};
+            console.log("---------------user:", newUser,"---------------------");
+            return res.send(newUser);
             //    return res.send(user,token);
         }
     }catch(err) {
@@ -88,11 +92,13 @@ export const verifyToken = async(req,res,next) => {
     if(!token) 
         return res.json({message: 'Invalid token', status: false});
     try{
-        const isVerify=jwt.verify(token, process.env.JWT_SECRET,{issuer: 'http://localhost:8080'})
+        const isVerify=jwt.verify(token, process.env.SECRET_KEY,{issuer: 'http://localhost:8080'})
         if(!isVerify) 
-            return res.status(403).json({message: 'Invalid token', status: false});
-
-        next();
+            {return res.status(403).json({message: 'Invalid token', status: false})}
+        else{
+            next();
+            return res.status(200).json({message:'valid token', status: true,token: token});
+        }
     }
     catch(err){
         console.log(err);

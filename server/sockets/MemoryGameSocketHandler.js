@@ -1,9 +1,8 @@
 let roomsMemoryGame = {};
 
-export const memoryGameRoomsReset = (socket,chatId) => {
+export const memoryGameRoomsReset = (chatId) => {
     console.log("memory game rooms reset started");
-    delete [chatId];
-    // socket.emit("leaveGameMessage");
+    delete roomsMemoryGame[chatId];
 }
 
 export const memoryGameSocketHandler = (io, socket, currentUserObject, chatId) => {
@@ -70,8 +69,8 @@ export const memoryGameSocketHandler = (io, socket, currentUserObject, chatId) =
     socket.on("leaveGame",()=>{
         socket.broadcast.emit("playerLeftMessage");
         socket.emit("exitFromGame");
+        memoryGameRoomsReset(chatId);
         let gameName= "memory";
-        // socket.emit("disconnect",{gameName,chatId});
     })
 }
 export const stopGame_memoryGame = (socket) =>{

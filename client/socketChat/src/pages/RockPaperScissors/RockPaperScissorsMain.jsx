@@ -26,11 +26,8 @@ const RockPaperScissorsMain = ({gameMode}) => {
     const {state}=useLocation()
     const {currentUserObject,currentChat} = state;
 
-    //------- take care in merging stage
     const roomId = currentChat.chatId
-    const [currentUserId, setCurrentUserId] = useState(Date.now())  
-    // const currentUserObject = useContext(Context);
-    // const [currentUserId, setCurrentUserId] = useState(currentUserObject.id)  
+    const [currentUserId, setCurrentUserId] = useState(currentUserObject.id)  
 
     useEffect(() => {
         if(gameMode==='multi'){
@@ -69,7 +66,15 @@ const RockPaperScissorsMain = ({gameMode}) => {
     }, [socket,reloaderIndicator])
     
     const returnToChat = ()=>{
-        navigate(`/chat`);
+        // setPlayerHand(3)
+        // if(gameMode==='multi'){
+        //     setIsWaiting(true)
+        // }
+        // setEnemyHand(3)
+        // setGameOver(false)
+        // setDisableButtons(false)
+        
+        navigate(`/chat`,{state: {detailUser:currentUserObject}});
     }
     const clickHandler = (e)=>{
         if(e){

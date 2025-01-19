@@ -4,7 +4,7 @@ import MemoryGameOver from '../../Components/MemoryGameComponents/memoryGameOver
 import './ContainerCardsGame.css';
 import { socket } from '../../utils/socket.js';
 import { useNavigate } from 'react-router-dom';
-const ContainerCardsGame = ({players,cards,sameUsersPlayTwice,currentUser}) => {
+const ContainerCardsGame = ({players,cards,currentUser}) => {
 
   const navigate=useNavigate();
   const [winningMessage, setWinningMessage] = useState("");

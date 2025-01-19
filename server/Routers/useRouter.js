@@ -8,7 +8,7 @@ const router = Router();
 
 router.route('/signup').post(signUp);
 router.route('/login').post(LogIn);
-router.route('/verifyLogin').post(verifyToken);
+// router.route('/verifyLogin').post(verifyToken);
 router.route('/loginByEmail').post(sendCodeToMail);
 router.route('/verifyEnteryCode').post(checkVerifyCode);
 router.route('/chat').get(verifyToken);

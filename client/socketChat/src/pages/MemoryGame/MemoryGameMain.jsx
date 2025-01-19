@@ -18,7 +18,7 @@ const MemoryGamePage = () => {
   const [participantsArr, setParticipantsArr] = useState([]);
   const [memoryCardsArr, setMemoryCardsArr] = useState(shuffledCardsArray);
   const [isLoading, setIsLoading] = useState(true);
-  let countPlayersPressLeave=0;
+  // let countPlayersPressLeave=0;
 
   useEffect(() => {
     socket.on('playerJoined',(arr) => {
@@ -32,14 +32,14 @@ const MemoryGamePage = () => {
     socket.emit("joinGame",{currentUserObject,chatId});
 
     socket.on("exitFromGame",()=> {
-      navigate("/chat");
+      navigate("/chat",{state: {detailUser:currentUserObject}});
       socket.off('exitFromGame');
     })
     socket.on("playerLeftMessage",()=> {
       setLeaveMsg("The other player left the game");
       setTimeout(()=>{
         setLeaveMsg("");
-        navigate("/chat");
+        navigate("/chat",{state: {detailUser:currentUserObject}});
       },4000);
   });
     return () => {
@@ -48,26 +48,9 @@ const MemoryGamePage = () => {
   }, []);
  
   const userLeave=()=>{
-      countPlayersPressLeave+=1;
+      // countPlayersPressLeave+=1;
       socket.emit("leaveGame");
   }
-  //---------------------------------------------------------למחוק
-      const sameUsersPlayTwice=()=>{
-        socket.on('playerJoined',(arr) => {
-          const message=arr[0]
-          const participents=arr[1];
-          setMessageShow(message);
-          setParticipantsArr(participents);
-          setMemoryCardsArr(shuffledCardsArray);
-          setIsLoading(false);
-        });
-        // socket.emit("joinGame",{user,chatId});
-        socket.emit("joinGame",user);
-        return () => {
-          socket.off('playerJoined');
-        }
-      }
- //---------------------------------------------------------למחוק עד כאן
   return (
     <div>
        { isLoading ? 
@@ -82,7 +65,7 @@ const MemoryGamePage = () => {
                 </div>
                   <div className='MemoryGamePage'>
                     <button className="btnLeaveGame" onClick={userLeave}>Leave the Game👋</button>
-                    <ContainerCardsGame players={participantsArr} wantToLeave={""} sameUsersPlayTwice={sameUsersPlayTwice} cards={memoryCardsArr} currentUser={currentUserObject}/>
+                    <ContainerCardsGame players={participantsArr} wantToLeave={""} cards={memoryCardsArr} currentUser={currentUserObject}/>
                     { LeaveMsg &&
                       ( <div className="leaveGameMsg hideMessage">{LeaveMsg}👋</div>)
                     }

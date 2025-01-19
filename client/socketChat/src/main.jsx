@@ -18,7 +18,7 @@ createRoot(document.getElementById('root')).render(
       <Routes>
         <Route path='/' element={<LogInPage />} />
         <Route path='/signup' element={<SignUpPage />} />
-        <Route path='/chat' element={<ChatHomePage />} />
+        <Route path='/chat' element={<ChatHomePage/>} />
         <Route path='/game/RPS' element={<RockPaperScissorsMain gameMode="multi" />} />
         <Route path='/game/memory' element={<MemoryGamePage />} />
       </Routes>
